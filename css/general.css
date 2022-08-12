@@ -43,6 +43,14 @@ body{
 /*-------------------------------------------------------------------------------*/
 /*----------------------------GENERAL REUSABLE COMPONENTS-------------------------------------*/
 /*-------------------------------------------------------------------------------*/
+.section{
+    transition: transform 1s, opacity 1s;
+}
+.section--hidden{
+    opacity: 0;
+    transform: translateY(8rem);
+}
+
 .heading,primary, .heading-secondary,.heading-tertiary{
     color: #333;
     font-weight: 700;

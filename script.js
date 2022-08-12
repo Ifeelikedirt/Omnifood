@@ -3,7 +3,10 @@ const btnNavEl = document.querySelector('.btn-mobile-nav');
 const headerEl = document.querySelector('.header');
 const mainNav = document.querySelector('.main-nav');
 const hero = document.querySelector('.hero');
-
+const allSections = document.querySelectorAll('.section');
+/////////////////////////////////////////////
+// NAV OPACITY //
+/////////////////////////////////////////////
 const hoverOpacity = function(e){
   if(e.target.classList.contains('main-nav-link')){
     const link = e.target;
@@ -17,7 +20,11 @@ const hoverOpacity = function(e){
     logo.style.opacity=this;
   }
 }
-
+headerEl.addEventListener('mouseover', hoverOpacity.bind(0.5));
+headerEl.addEventListener('mouseout', hoverOpacity.bind(1));
+/////////////////////////////////////////////
+//SMMOOTH SCROLLING
+/////////////////////////////////////////////
 mainNav.addEventListener('click', (e)=>{
     if(e.target.classList.contains("main-nav-link")){
       e.preventDefault();
@@ -41,16 +48,18 @@ document.querySelector('.footer-logo').addEventListener('click', ()=>{
     behavior: "smooth"
   })
 })
+/////////////////////////////////////////////
+// MOBILE NAVIGATION
+/////////////////////////////////////////////
 btnNavEl.addEventListener('click', ()=>{
   headerEl.classList.toggle("nav-open");
 })
-headerEl.addEventListener('mouseover', hoverOpacity.bind(0.5));
-headerEl.addEventListener('mouseout', hoverOpacity.bind(1));
-
+/////////////////////////////////////////////
+// STICKY NAVIGATION
+/////////////////////////////////////////////
 const headerHeight = headerEl.getBoundingClientRect().height;
 const stickyNav = function(entries){
   const [entry] = entries;
-  console.log(entry);
   if(!entry.isIntersecting) document.querySelector('body').classList.add('sticky');
   else document.querySelector('body').classList.remove('sticky');
 }
@@ -59,5 +68,24 @@ const options = {
   threshold:0,
   rootMargin:`-${headerHeight}px`,
 }
-const observer = new IntersectionObserver(stickyNav, options);
-observer.observe(hero);
+const headerObserver = new IntersectionObserver(stickyNav, options);
+headerObserver.observe(hero);
+/////////////////////////////////////////////
+// REVEALING ITEMS
+/////////////////////////////////////////////
+const revealSection = function(entries, observer){
+  const [entry] = entries;
+  if(!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+}
+
+const sectionObserver = new IntersectionObserver(revealSection,{
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(section=>{
+  section.classList.add('section--hidden');
+  sectionObserver.observe(section);
+});
