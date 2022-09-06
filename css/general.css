@@ -51,7 +51,7 @@ body{
     transform: translateY(8rem);
 }
 
-.heading,primary, .heading-secondary,.heading-tertiary{
+.heading-primary, .heading-secondary,.heading-tertiary{
     color: #333;
     font-weight: 700;
     letter-spacing: -0.5px;
